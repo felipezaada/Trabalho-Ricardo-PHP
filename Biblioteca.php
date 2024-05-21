@@ -14,7 +14,7 @@ class Biblioteca
         $disponiveis = [];
         foreach ($this->acervo as $livro) {
             if ($livro->status === Status::Disponivel) {
-                $disponiveis[] = $livro; 
+                $disponiveis[] = $livro;
             }
         }
 
@@ -44,14 +44,30 @@ class Biblioteca
     public function buscarLivroPorISBN($isbn)
     {
 
-        echo "Livro encontrado: " . "</br>" . "</br>"; 
+        echo "Livro encontrado: " . "</br>" . "</br>";
 
         foreach ($this->acervo as $livro) {
             if ($livro->ISBN === $isbn) {
                 echo $livro; // mantém a formatação
             }
         }
-    }
+    } 
+
+    public function marcarEmprestado($livro){
+        $livro->status = Status::Emprestado;
+        $livro->atualizarDataDevolucao();
+    } // marca livro como emprestado e gera data de devolução
+
+    public function marcarDevolucao($livro){
+        $livro->status = Status::Disponivel;
+        $livro->atualizarDataDevolucao();
+    } // devolve e atualiza a data (remove)
+
+
+    public function renovarEmprestimo($livro){
+        $livro->renovar += 5;
+        $livro->atualizarDataDevolucao();
+    } // renova o empréstimo e atualiza a data 
 
 }
 
